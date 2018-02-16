@@ -1,0 +1,19 @@
+{
+  "name": "convergio",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "author": "Shashwat",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.2",
+    "mongodb": "^3.0.2",
+    "mongoose": "^5.0.5",
+    "nodemon": "^1.14.12",
+    "body-parser":"*"
+  }
+}
