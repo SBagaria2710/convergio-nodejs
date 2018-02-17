@@ -1,6 +1,7 @@
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose') 
 const express = require('express')
+var randomstring = require("randomstring");
 const app = express()
 const User = require('./User.js')
 const Input = require('./input.js')
@@ -57,9 +58,27 @@ app.post('/login', (req, res) => {
 	}
 });
 
+app.post('/guest', (req, res) => {
+	var randomUser = randomstring.generate(7);
+	var userData = {
+		username: randomUser,
+		email: "",
+		password: "",
+    	type: "guest",
+    	company: randomUser
+	}
+	User.create(userData, function (err, user){
+		if(err) 
+			throw(err)
+		else 
+			res.json({"status": "success", "id": user._id, "type": user.type})
+	});
+});
+
 app.post('/input', (req, res) => {
 	if (req.body.userID != null && req.body.text != null && req.body.type !=null) {
-		if(req.body.type == "admin")
+		console.log("type: " + req.body.type)
+		if(req.body.type == "admin" || req.body.type == "guest")
 			var status = "approved"
 		else
 			var status = "pending"
@@ -76,6 +95,8 @@ app.post('/input', (req, res) => {
 		      res.json({"status": "success", "id": Input._id, "text": Input.text, "Status": Input.status});
 		});
 	}
+	else
+		res.json({status: "failed"})
 });
 
 app.post('/inputlist', (req, res) => {
